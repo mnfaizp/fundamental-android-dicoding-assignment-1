@@ -23,13 +23,17 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.title = "Detail User"
 
         val users = intent.getParcelableExtra<User>(EXTRA_USER) as User
+        
+        with(binding) {
+            tvReceivedUsername.text = users.username
+            tvReceivedName.text = users.name
+            tvReceivedFollowers.text = users.follower.toString()
+            tvReceivedFollowing.text = users.following.toString()
+            tvReceivedLocation.text = users.location
+            tvReceivedRepository.text = users.repository.toString()    
+        }
 
-        binding.tvReceivedUsername.text = users.username
-        binding.tvReceivedName.text = users.name
-        binding.tvReceivedFollowers.text = users.follower.toString()
-        binding.tvReceivedFollowing.text = users.following.toString()
-        binding.tvReceivedLocation.text = users.location
-        binding.tvReceivedRepository.text = users.repository.toString()
+        
 
         Glide.with(applicationContext)
                 .load(users.avatar)

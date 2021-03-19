@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Fundamental Submission 1</string>
+    <string name="username">Username</string>
+    <string name="followers">Followers</string>
+    <string name="following">Following</string>
+    <string name="repository">Repository</string>
 </resources>

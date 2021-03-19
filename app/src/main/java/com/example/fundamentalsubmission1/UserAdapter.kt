@@ -37,7 +37,7 @@ class UserAdapter(private val listUser: ArrayList<User>) : RecyclerView.Adapter<
 
         Glide.with(holder.itemView.context)
             .load(user.avatar)
-            .apply(RequestOptions().override(55, 55))
+            .apply(RequestOptions().override(190, 190))
             .into(holder.userAva)
 
         holder.itemView.setOnClickListener {
