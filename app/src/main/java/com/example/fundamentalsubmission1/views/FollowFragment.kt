@@ -1,6 +1,7 @@
 package com.example.fundamentalsubmission1.views
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -61,27 +62,32 @@ class FollowFragment : Fragment() {
     }
 
     private fun showRecycler(section: Int, username: String) {
+        Log.d("TAG", username)
         if (section == 1) {
             viewModelFollowers = ViewModelProvider(this, ViewModelFactory(ApiHelper(RetrofitBuilder.apiService)))
                 .get(FollowersViewModel::class.java)
             
             viewModelFollowers.getFollowers(username).observe(this, {
-                getList(it.data)
+                it?.let { resource ->
+                    resource.data?.let { users -> getList(users) }
+                }
             })
         } else {
             viewModelFollowing = ViewModelProvider(this, ViewModelFactory(ApiHelper(RetrofitBuilder.apiService)))
                 .get(FollowingViewModel::class.java)
 
             viewModelFollowing.getFollowing(username).observe(this, {
-                getList(it.data)
+                it?.let { resource ->
+                    resource.data?.let { users -> getList(users) }
+                }
             })
         }
 
     }
     
-    private fun getList(users: ArrayList<User>?) {
+    private fun getList(users: ArrayList<User>) {
         adapter.apply { 
-            addUsers(users!!)
+            addUsers(users)
             notifyDataSetChanged()
         }
     }

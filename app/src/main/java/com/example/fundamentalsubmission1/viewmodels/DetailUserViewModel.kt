@@ -8,36 +8,21 @@ import com.example.fundamentalsubmission1.api.ApiHelper
 import com.example.fundamentalsubmission1.api.RetrofitBuilder
 import com.example.fundamentalsubmission1.models.UserDetail
 import com.example.fundamentalsubmission1.repositories.UserRepository
+import com.example.fundamentalsubmission1.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class DetailUserViewModel(userRepository: UserRepository) : ViewModel() {
+class DetailUserViewModel(private val userRepository: UserRepository) : ViewModel() {
 
-    private var detailUser: MutableLiveData<UserDetail> = MutableLiveData()
+    fun getUser(username: String) = liveData(Dispatchers.IO) {
+        emit(Resource.loading(data = null))
 
-    fun getUserObserver() : MutableLiveData<UserDetail> {
-        return detailUser
-    }
-
-    fun apiCallWithId(user_id: String){
         try {
-            viewModelScope.launch(Dispatchers.IO) {
-                val instance = RetrofitBuilder.apiService
-                val response = instance.getUser(user_id)
-
-                detailUser.postValue(response)
-            }
-
-
-        } catch (e:Exception){
-            e.printStackTrace()
+            emit(Resource.success(data = userRepository.getUser(username)))
+        } catch (e: Exception) {
+            emit(Resource.error(data = null, message = e.message.toString()))
         }
-
-
     }
-
-
-
 
 }

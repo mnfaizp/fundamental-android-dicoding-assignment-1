@@ -11,9 +11,15 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.fundamentalsubmission1.R
 import com.example.fundamentalsubmission1.adapters.SectionPagerAdapter
+import com.example.fundamentalsubmission1.api.ApiHelper
+import com.example.fundamentalsubmission1.api.RetrofitBuilder
 import com.example.fundamentalsubmission1.databinding.ActivityDetailBinding
+import com.example.fundamentalsubmission1.models.User
 import com.example.fundamentalsubmission1.models.UserDetail
+import com.example.fundamentalsubmission1.utils.Status
 import com.example.fundamentalsubmission1.viewmodels.DetailUserViewModel
+import com.example.fundamentalsubmission1.viewmodels.UserViewModel
+import com.example.fundamentalsubmission1.viewmodels.ViewModelFactory
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -30,6 +36,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private lateinit var userid: String
+    private lateinit var viewModel: DetailUserViewModel
     private lateinit var binding: ActivityDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +48,8 @@ class DetailActivity : AppCompatActivity() {
 
         userid = intent.getStringExtra(EXTRA_USER)!!
 
-        initViewModel(userid)
+        initViewModel()
+        initObserver()
         initTabLayout(userid)
     }
 
@@ -74,18 +82,30 @@ class DetailActivity : AppCompatActivity() {
             .into(binding.imgReceivedAvatar)
     }
 
-    private fun initViewModel(userid: String){
-        val viewModel = ViewModelProvider(this).get(DetailUserViewModel::class.java)
-        viewModel.getUserObserver().observe(this, {
-            if (it != null){
-                initView(it)
-            } else {
-                Toast.makeText(this, "Something wrong when loading", Toast.LENGTH_SHORT).show()
-            }
-        })
-        viewModel.apiCallWithId(userid)
-        binding.pbDetail.visibility = View.INVISIBLE
+    private fun initViewModel(){
+        viewModel = ViewModelProvider(this, ViewModelFactory(ApiHelper(RetrofitBuilder.apiService)))
+            .get(DetailUserViewModel::class.java)
     }
 
+    private fun initObserver(){
+        viewModel.getUser(userid).observe(this, {
+            it?.let { resource ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        binding.pbDetail.visibility = View.GONE
+                        resource.data?.let { users -> initView(users) }
+                    }
+
+                    Status.LOADING -> {
+                        binding.pbDetail.visibility = View.VISIBLE
+                    }
+
+                    Status.ERRORS -> {
+                        binding.pbDetail.visibility = View.GONE
+                    }
+                }
+            }
+        })
+    }
 
 }
