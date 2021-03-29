@@ -3,7 +3,6 @@ package com.example.fundamentalsubmission1.views
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
@@ -14,11 +13,9 @@ import com.example.fundamentalsubmission1.adapters.SectionPagerAdapter
 import com.example.fundamentalsubmission1.api.ApiHelper
 import com.example.fundamentalsubmission1.api.RetrofitBuilder
 import com.example.fundamentalsubmission1.databinding.ActivityDetailBinding
-import com.example.fundamentalsubmission1.models.User
 import com.example.fundamentalsubmission1.models.UserDetail
 import com.example.fundamentalsubmission1.utils.Status
 import com.example.fundamentalsubmission1.viewmodels.DetailUserViewModel
-import com.example.fundamentalsubmission1.viewmodels.UserViewModel
 import com.example.fundamentalsubmission1.viewmodels.ViewModelFactory
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -44,13 +41,19 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.title = "Detail User"
+        supportActionBar?.title = "User Detail"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         userid = intent.getStringExtra(EXTRA_USER)!!
 
         initViewModel()
         initObserver()
         initTabLayout(userid)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     private fun initTabLayout(username: String) {

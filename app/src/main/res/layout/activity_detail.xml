@@ -13,12 +13,12 @@
         android:id="@+id/img_received_avatar"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        tools:src="@tools:sample/avatars"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2"
-        app:layout_constraintVertical_bias="0.01"
-        tools:src="@drawable/user1" />
+        app:layout_constraintVertical_bias="0.01" />
 
     <TextView
         android:id="@+id/tv_received_username"
