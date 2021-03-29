@@ -1,6 +1,5 @@
 package com.example.fundamentalsubmission1.models
 
-
 data class User(
     val avatar_url: String,
     val events_url: String,

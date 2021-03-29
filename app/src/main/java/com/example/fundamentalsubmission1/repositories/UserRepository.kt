@@ -11,4 +11,6 @@ class UserRepository(private val apiHelper: ApiHelper) {
     suspend fun getFollowers(username: String) = apiHelper.getFollowers(username)
 
     suspend fun getFollowing(username: String) = apiHelper.getFollowing(username)
+
+    suspend fun getSearchUser(username: String) = apiHelper.getSearchUser(username)
 }

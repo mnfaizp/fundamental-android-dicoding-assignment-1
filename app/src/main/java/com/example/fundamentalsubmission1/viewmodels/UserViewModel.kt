@@ -17,4 +17,14 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel(){
             emit(Resource.error(data = null, message = e.message ?: "Something Error"))
         }
     }
+
+    fun searchUsers(username: String) = liveData(Dispatchers.IO) {
+        emit(Resource.loading(data = null))
+
+        try {
+            emit(Resource.success(data = userRepository.getSearchUser(username)))
+        } catch (e: Exception) {
+            emit(Resource.error(data = null, message = e.message ?: "Something Error"))
+        }
+    }
 }
