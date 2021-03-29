@@ -1,4 +1,4 @@
-package com.example.fundamentalsubmission1
+package com.example.fundamentalsubmission1.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.fundamentalsubmission1.R
+import com.example.fundamentalsubmission1.models.User
 
 class UserAdapter(private val listUser: ArrayList<User>) : RecyclerView.Adapter<UserAdapter.ViewHolder>(){
 
@@ -24,7 +26,7 @@ class UserAdapter(private val listUser: ArrayList<User>) : RecyclerView.Adapter<
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val userAva: ImageView = itemView.findViewById(R.id.img_avatar)
         val userFullName: TextView = itemView.findViewById(R.id.tv_name)
-        val userCompany: TextView = itemView.findViewById(R.id.tv_company)
+        val username: TextView = itemView.findViewById(R.id.tv_company)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -36,20 +38,27 @@ class UserAdapter(private val listUser: ArrayList<User>) : RecyclerView.Adapter<
         val user = listUser[position]
 
         Glide.with(holder.itemView.context)
-            .load(user.avatar)
-            .apply(RequestOptions().override(190, 190))
+            .load(user.avatar_url)
+            .apply(RequestOptions().override(55, 55))
             .into(holder.userAva)
 
         holder.itemView.setOnClickListener {
             onItemClickCallback.onItemClick(listUser[holder.adapterPosition])
         }
 
-        holder.userFullName.text = user.name
-        holder.userCompany.text = user.company
+        holder.userFullName.text = user.login
+        holder.username.text = user.url
     }
 
     override fun getItemCount(): Int {
         return listUser.size
+    }
+
+    fun addUsers(users: ArrayList<User>) {
+        this.listUser.apply {
+            clear()
+            addAll(users)
+        }
     }
 
 }
