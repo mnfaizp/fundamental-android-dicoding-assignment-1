@@ -14,7 +14,6 @@ interface ApiService {
     suspend fun getAll(): ArrayList<User>
 
     @GET("users/{user_id}")
-    @Headers("Authorization: token fa4d816fcb682aa23f8352c048efc230842a9386")
     suspend fun getUser(
         @Path("user_id") user_id: String
     ): UserDetail
