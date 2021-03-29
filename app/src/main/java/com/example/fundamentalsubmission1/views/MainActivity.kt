@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -132,6 +133,7 @@ class MainActivity : AppCompatActivity() {
 
                     Status.ERRORS -> {
                         binding.pbMain.visibility = View.GONE
+                        Toast.makeText(this, it.message.toString(), Toast.LENGTH_SHORT).show()
                     }
                 }
             }

@@ -3,6 +3,7 @@ package com.example.fundamentalsubmission1.views
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
@@ -105,6 +106,7 @@ class DetailActivity : AppCompatActivity() {
 
                     Status.ERRORS -> {
                         binding.pbDetail.visibility = View.GONE
+                        Toast.makeText(this, it.message.toString(), Toast.LENGTH_SHORT).show()
                     }
                 }
             }
