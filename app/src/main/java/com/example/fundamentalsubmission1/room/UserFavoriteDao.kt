@@ -10,7 +10,7 @@ import com.example.fundamentalsubmission1.models.UserFavorite
 interface UserFavoriteDao {
 
     @Query("SELECT * FROM favorite_users")
-    fun getAllFavoriteUsers(): List<UserFavorite>
+    fun getAllFavoriteUsers(): kotlinx.coroutines.flow.Flow<List<UserFavorite>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(userFavorite: UserFavorite)
